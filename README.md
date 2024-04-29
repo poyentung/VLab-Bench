@@ -10,7 +10,12 @@ DOTS-Benchmark is a suite containing benchmark functions and algorithms for opti
 
 The [currently available algorithms](dots_benchmark/algorithms.py) are:
 
-* Derivative-free stOchastic Tree Search (DOTS, [Wei wt al., 2024](https://arxiv.org/abs/2404.04062))
+* Derivative-free stOchastic Tree Search (DOTS, [Wei et al., 2024](https://arxiv.org/abs/2404.04062))
+* MCTS_Greedy
+* MCTS_eGreedy
+* Dual Annealing
+* Differential Evolution
+* CMA-ES
 
 Please send us a PR to add your algorithm!
 
