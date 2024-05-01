@@ -2,6 +2,8 @@
 
 DOTS-Benchmark is a suite containing benchmark functions and algorithms for optimisation, as introduced in [Derivative-free stOchastic Tree Search](https://arxiv.org/abs/2404.04062).
 
+DOTS-Benchmark is a suite containing benchmark functions and algorithms for optimisation, as introduced in [Derivative-free stOchastic Tree Search](https://arxiv.org/abs/2404.04062).
+
 ## Current results
 
 ![Result table](dots_benchmark/results/benchmark.png)
