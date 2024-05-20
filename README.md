@@ -1,12 +1,33 @@
-# DOTS-Benchmark
+# VLab-Bench
 
-DOTS-Benchmark is a suite containing benchmark functions and algorithms for optimisation, as introduced in [Derivative-free stOchastic Tree Search](https://arxiv.org/abs/2404.04062).
+`VLab-Bench` is a suite that offers benchmarks for real-world scientific design tasks and optimisation algorithms for materials science and biology. 
 
 ## Current results
 
 ![Result table](dots_benchmark/results/benchmark.png)
 
-## Available algorithms
+## Available real-world tasks
+
+The [currently available tasks](dots_benchmark/functions.py) are:
+
+* Cyclic peptite binder design
+* Electron ptychography: reconstruction optimisation
+
+Please send us a PR to add your real-world task!
+
+## Available synthetic function tasks
+
+The [currently available functions](dots_benchmark/functions.py) are:
+
+* Ackley
+* Rastrigin
+* Rosenbrock
+* Levy
+* Schwefel
+* Michalewicz
+* Griewank
+
+## Available optimisation algorithms
 
 The [currently available algorithms](dots_benchmark/algorithms.py) are:
 
@@ -18,18 +39,6 @@ The [currently available algorithms](dots_benchmark/algorithms.py) are:
 * CMA-ES
 
 Please send us a PR to add your algorithm!
-
-## Available oracle functions
-
-The [currently available functions](dots_benchmark/functions.py) are:
-
-* Ackley
-* Rastrigin
-* Rosenbrock
-* Levy
-* Schwefel
-* Michalewicz
-* Griewank
 
 ## Installation
 
