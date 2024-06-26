@@ -11,7 +11,7 @@ from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropou
 from .utils import DivideLayer
 keras.config.enable_unsafe_deserialization()
 
-class model_training:
+class SurrogateModelTraining:
     def __init__(self, f = None, dims=10, learning_rate = 0.001):
         self.f = f
         self.dims    = dims

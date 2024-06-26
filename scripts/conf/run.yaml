@@ -1,0 +1,5 @@
+method: da           # method to search
+func: ackley         # test function
+dims: 10             # problem dimension
+num_samples: 500     # number of samples to collect in the search
+init_samples: 200    # number of initialisation data points for training initial surrogate model 

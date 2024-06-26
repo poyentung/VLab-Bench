@@ -41,9 +41,9 @@ Please send us a PR to add your algorithm!
 
 ## Installation
 
-The code requires `python>=3.9`. Installation Tensorflow and Keras with CUDA support is stroongly recommended.
+The code requires `python>=3.9`. Installation Tensorflow and Keras with CUDA support is strongly recommended.
 
-Install DOTS:
+Install `vlab_bench`:
 
 ```
 pip install git+https://github.com/poyentung/vlab_bench.git

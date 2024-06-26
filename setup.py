@@ -6,24 +6,21 @@ with open("README.md", "r") as fh:
 __version__ = "0.0.1"
     
 setup(
-    name='dots_benchmark',
+    name='vlab_bench',
     version=__version__,
-    description="derivative-free tree optimization for complex systems",
+    description="VLab-Bench: Benchmarks for self-driving virtual laboratories",
     license='MIT',
-    url="https://github.com/poyentung/DOTS-Benchmark",
+    url="https://github.com/poyentung/VLab-Bench",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    keywords=[
-        "dots",
-        "Derivative-free tree optimization for complex systems",
-    ],
     packages=find_packages(),
     python_requires=">=3.9",
     install_requires=[
         "notebook",
         "tensorflow",
         "keras",
-        "numpy",  
+        "numpy",
+        "hydra-core         >= 1.3",
         "scipy              == 1.10.1",
         "pandas             == 1.4.4", 
         "matplotlib         == 3.6.3",
@@ -36,7 +33,6 @@ setup(
         "openpyxl           == 3.1.2",
     ],
     package_data={
-        "": ["LICENSE", "README.md"],
-        "sigma": ["*.py"],
+        "": ["LICENSE", "README.md"]
     },
 )

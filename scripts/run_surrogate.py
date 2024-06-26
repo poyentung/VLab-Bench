@@ -1,6 +1,3 @@
-# import sys
-# sys.path.append("..")
-
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -8,14 +5,14 @@ import os
 import argparse
 import numpy as np
 
-from ..networks import model_training 
-from ..utils import sampling_points
-from ..algorithms import (
+from vlab_bench.networks import SurrogateModelTraining 
+from vlab_bench.utils import sampling_points
+from vlab_bench.algorithms import (
     DualAnnealing,
     DifferentialEvolution,
     CMAES
 )
-from ..functions import (
+from vlab_bench.functions import (
     Ackley,
     Rastrigin,
     Rosenbrock,
@@ -53,7 +50,7 @@ else:
     os._exit(1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 # Define surrogate model
-nn = model_training(f=args.func, dims=args.dims)
+nn = SurrogateModelTraining(f=args.func, dims=args.dims)
 
 # 200 initial points and set rollout_round
 init_samples = sampling_points(f, dims=args.dims, n_samples=args.init_samples)

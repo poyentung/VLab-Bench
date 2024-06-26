@@ -1,3 +1,9 @@
+# keras model checkpoint
+*.keras
+
+# hydra logs
+.hydra/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
