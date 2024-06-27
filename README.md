@@ -26,32 +26,32 @@ cd vlab_bench; pip3 install -e ./
 **[Optional]** installation of `TurBO` and/or `LaMCTS`
 
 ```
-git clone git@github.com:poyentung/uber-research/TuRBO.git
+git clone https://github.com/uber-research/TuRBO.git
 pip3 install -e TuRBO/./
 ```
 ```
-git clone git@github.com:facebookresearch/LaMCTS.git
-pip3 install -e LaMCTS/LaMCTS/./
+git clone https://github.com/facebookresearch/LaMCTS.git
+pip3 install -e LaMCTS/LaMCTS/LA-MCTS/./
 ```
 
 
 ## Getting started
 
-Here we evaluate `TuRBO` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>.
+Here we evaluate `TuRBO` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=1000` and `init_samples=200` represent 800 aquisition of samples (instead of 1000).
 
 ```
 python3 scripts/run.py\
                 method=turbo\
                 func=ackley\
                 dims=10\
-                num_samples=20\
+                num_samples=1000\
                 init_samples=200
 ```
 
-We can also run multiple conditions in a run. For example, we want to evaluate `TuRBO`, `LaMCTS` and `Dual Annealing` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points** </ins>.
+We can also run multiple conditions in a run. For example, we want to evaluate `MCMC`, `CMA-ES` and `Dual Annealing` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points** </ins>.
 ```
 python3 scripts/run.py -m \
-                method=turbo,lamcts,da \
+                method=mcmc,cmaes,da \
                 func=ackley \
                 dims=10 \
                 num_samples=20 \
