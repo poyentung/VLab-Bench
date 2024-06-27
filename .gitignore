@@ -1,3 +1,15 @@
+# keras model checkpoint
+*.keras
+
+# hydra logs
+.hydra/*
+.DS_Store
+outputs/
+
+# LaMCTS & TuRBO
+LaMCTS/
+TuRBO/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
