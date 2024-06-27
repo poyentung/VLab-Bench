@@ -1,8 +1,4 @@
 import numpy as np
-import cma
-
-from typing import List, Union, Dict
-from scipy.optimize import dual_annealing, differential_evolution
 
 class BaseOptimization:
     def __init__(self, f=None, dims=20, model=None, name=None):
@@ -55,8 +51,8 @@ class BaseOptimization:
             pred_fun=(100/pred-0.01)*self.f.dims*0.1
         else:
             pred_fun=100/pred
-        return pred_fun
-    
+        return float(pred_fun)
+        
     def get_top_X(self, X, top_n, top_n2):
         new_x = self.data_process(X, self.all_proposed)
         new_pred = self.model.predict(np.array(new_x).reshape(len(new_x),-1,1))
@@ -71,16 +67,16 @@ class BaseOptimization:
             dummy = np.arange(self.f.lb[0], self.f.ub[0] + self.f.turn, self.f.turn).round(5)
             random_X = np.random.choice(dummy, size=(top_n - len(new_x), self.f.dims))
             top_X = np.concatenate((new_x, random_X),axis=0)
-        return top_X 
+        return top_X
 
     def single_rollout(self):
         return NotImplementedError
     
-    def rollout(self, X, y, rollout_round):
+    def rollout(self, X, y, rollout_round, method_args={}):
         if self.name == 'rastrigin' or self.name == 'ackley':
             index_max = np.argmax(y)
             initial_X = X[index_max,:]
-            top_X = self.single_rollout(X, initial_X, rollout_round)
+            top_X = self.single_rollout(X, initial_X, rollout_round, method_args=method_args)
             
         else:
             #### unique initial points
@@ -102,51 +98,3 @@ class BaseOptimization:
             top_X = np.vstack(X_top)
             top_X = top_X[-20:]
         return top_X
-
-#######################################################
-'Dual Annealing'
-#######################################################
-
-class DualAnnealing(BaseOptimization):
-    def __init__(self, **args):
-        super().__init__(**args)
-    
-    def single_rollout(self, X, x_current, rollout_round, top_n:int=16, top_n2:int=4):
-        if self.mode == 'fast':
-            ret = dual_annealing(self.predict, bounds=self.bounds, x0=x_current, maxfun=rollout_round, initial_temp=0.05)
-        elif self.mode == 'origin':
-            ret = dual_annealing(self.predict, bounds=self.bounds, x0=x_current)
-        self.all_proposed.append(np.round(ret.x,int(-np.log10(self.f.turn))))
-        return self.get_top_X(X,top_n, top_n2) 
-
-#######################################################
-'Differential Evolution'
-#######################################################
-class DifferentialEvolution(BaseOptimization):
-    def __init__(self, **args):
-        super().__init__(**args)
-    
-    def single_rollout(self, X, x_current, rollout_round, top_n:int=16, top_n2:int=4):
-        if self.mode == 'fast':
-            popsize = int(max(100 / self.f.dims, 1))
-            ret = differential_evolution(self.predict, bounds=self.bounds, x0=x_current, maxiter=1, popsize=popsize)
-        elif self.mode == 'origin':
-            ret = differential_evolution(self.predict, bounds=self.bounds, x0=x_current)
-        self.all_proposed.append(np.round(ret.x, int(-np.log10(self.f.turn))))
-        return self.get_top_X(X, top_n, top_n2)
-
-#######################################################
-'CMA-ES'
-#######################################################
-class CMAES(BaseOptimization):
-    def __init__(self, **args):
-        super().__init__(**args)
-        
-    def single_rollout(self,X, x_current, rollout_round, top_n:int=16, top_n2:int=4):
-        if self.mode == 'fast':
-            options = {'maxiter':int(rollout_round/10),'bounds':[self.f.lb[0], self.f.ub[0]]}
-            es =cma.fmin(self.predict, x_current, 0.5, options)
-        elif self.mode == 'origin':
-            options = {'bounds':[self.f.lb[0], self.f.ub[0]]}
-            es =cma.fmin(self.predict, x_current, (self.f.ub[0]-self.f.lb[0])/4, options)
-        return self.get_top_X(X, top_n, top_n2)

@@ -3,6 +3,12 @@
 
 # hydra logs
 .hydra/*
+.DS_Store
+outputs/
+
+# LaMCTS & TuRBO
+LaMCTS/
+TuRBO/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

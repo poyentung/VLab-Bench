@@ -17,7 +17,7 @@ class SurrogateModelTraining:
         self.dims    = dims
         self.learning_rate = learning_rate
 
-    def __call__(self, X,y):
+    def __call__(self, X, y):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         if self.f == 'ackley':

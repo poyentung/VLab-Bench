@@ -1,6 +1,9 @@
 import warnings
 warnings.filterwarnings("ignore")
 
+import sys
+sys.path.append('../')
+
 import os
 import argparse
 import numpy as np

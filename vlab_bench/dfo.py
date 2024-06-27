@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from typing import Dict
 from .networks import SurrogateModelTraining 
 
 from .functions import (
@@ -11,10 +12,17 @@ from .functions import (
     Griewank,
 )
 
-from .algorithms import (
+from .algorithms.doo import DOO 
+from .algorithms.soo import SOO 
+from .algorithms.voo import VOO 
+from .algorithms._lamcts import LaMCTS
+from .algorithms._turbo import TuRBO
+from .algorithms.algorithms import (
     DualAnnealing,
     DifferentialEvolution,
-    CMAES
+    CMAES,
+    MCMC,
+    Shiwa,
 )
 
 FUNC = {'ackley':Ackley, 
@@ -25,9 +33,16 @@ FUNC = {'ackley':Ackley,
         'griewank':Griewank
         }
 
-DFO = {'da':DualAnnealing,
+DFO = {'lamcts':LaMCTS,
+       'turbo':TuRBO,
+       'da':DualAnnealing,
        'diff_evo':DifferentialEvolution,
-       'cmaes':CMAES
+       'cmaes':CMAES,
+       'mcmc':MCMC,
+       'shiwa':Shiwa,
+       'doo':DOO,
+       'soo':SOO,
+       'voo':VOO
        }
 
 class DerivativeFreeOptimization:
@@ -38,6 +53,7 @@ class DerivativeFreeOptimization:
                  num_samples:int,
                  surrogate:SurrogateModelTraining,
                  num_init_samples:int=200,
+                 dfo_method_args:Dict={}
                  ):
         
         assert dims > 0
@@ -58,9 +74,11 @@ class DerivativeFreeOptimization:
         self.surrogate = SurrogateModelTraining(f=self.func, dims=self.dims) if surrogate is None else surrogate
         self.rollout_round = 200 if (self.func == 'ackley') or (self.func == 'rastrigin') else 100
         self.num_init_samples = num_init_samples
+        self.dfo_method_args = {} if dfo_method not in dfo_method_args.keys() else dfo_method_args[dfo_method]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         # initialise samples (i.e. 200 data points)
-        self.input_X, self.input_y2 = self.sampling_points(self.f, self.dims, self.num_init_samples)
+        if self.dfo_method not in ('lamcts', 'turbo'):
+            self.input_X, self.input_y2 = self.sampling_points(self.f, self.dims, self.num_init_samples)
 
 
     def sampling_points(self, f, dims:int=5, n_samples:int=200):
@@ -86,16 +104,31 @@ class DerivativeFreeOptimization:
 
     def run(self):
         if self.dfo_method == 'Random':
-            out = self.sampling_points(self.f, dims=self.dims, n_samples=self.samples)
+            out = self.sampling_points(self.f, dims=self.dims, n_samples=self.num_samples)
             for x in out['input_X']:
                 init_y = self.f(x)
+
+        elif self.dfo_method == 'lamcts':
+            optimizer = self.dfo(f=self.f, dims=self.dims, model=None, name=self.func)
+            print(f'This optimization is based on a {self.dfo_method} optimizer')
+            optimizer.run(num_samples = self.num_samples,
+                          num_init_samples = self.num_init_samples,
+                          **self.dfo_method_args)
+            
+        elif self.dfo_method == 'turbo':
+            optimizer = self.dfo(f=self.f, dims=self.dims, model=None, name=self.func)
+            print(f'This optimization is based on a {self.dfo_method} optimizer')
+            optimizer.run(num_samples = self.num_samples,                 
+                          num_init_samples = self.num_init_samples,
+                          **self.dfo_method_args)
+            
         else:
             for i in range(self.num_samples//20):
                 model = self.surrogate(self.input_X, self.input_y2)
                 optimizer = self.dfo(f=self.f, dims=self.dims, model=model, name=self.func)
                 optimizer.mode = 'fast' # 'fast' or 'origin'
                 print(f'This optimization is based on a ', optimizer.mode, ' mode {self.dfo_method} optimizer')
-                top_X = optimizer.rollout(self.input_X, self.input_y2, self.rollout_round)
+                top_X = optimizer.rollout(self.input_X, self.input_y2, self.rollout_round, method_args=self.dfo_method_args)
                 top_y = []
                 for xx in top_X:
                     _, y2 = self.f(xx)

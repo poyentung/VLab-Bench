@@ -19,7 +19,8 @@ def run(config: DictConfig):
             dims=config.dims,
             num_samples=config.num_samples,
             surrogate=SurrogateModelTraining(f=config.func, dims=config.dims),
-            num_init_samples=config.init_samples
+            num_init_samples=config.init_samples,
+            dfo_method_args=config.dfo_method_args
     )
 
     dfo.run()
