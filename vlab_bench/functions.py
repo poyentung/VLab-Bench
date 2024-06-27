@@ -1,43 +1,6 @@
 import os
 import numpy as np
 
-class tracker:
-    def __init__(self, foldername):
-        self.counter   = 0
-        self.results   = []
-        self.x         = []
-        self.curt_best = float("inf")
-        self.curt_best_x = None
-        self.foldername = foldername
-        try:
-            os.mkdir(foldername)
-        except OSError:
-            print ("Creation of the directory %s failed" % foldername)
-        else:
-            print ("Successfully created the directory %s " % foldername)
-        
-    def dump_trace(self):
-        np.save(self.foldername +'/result.npy',np.array(self.results),allow_pickle=True)
-            
-    def track(self, result, x = None, saver = False):
-        self.counter += 1
-        if result < self.curt_best:
-            self.curt_best = result
-            self.curt_best_x = x
-        print("")
-        print("="*10)
-        print("#samples:", self.counter, "total samples:", len(self.results)+1)
-        print("="*10)
-        print("current best f(x):", self.curt_best)
-        print("current best x:", np.around(self.curt_best_x, decimals=4))
-        self.results.append(self.curt_best)
-        self.x.append(x)
-        if saver == True:
-            self.dump_trace()
-        if self.counter % 20 == 0:
-            self.dump_trace()
-        if round(self.curt_best,5) == 0:
-            self.dump_trace()
 
 class Function:
     def __init__(self, dims=3, turn=0.1, name='none', iters=None):
@@ -165,3 +128,42 @@ class Schwefel(Function):
 
         self.tracker.track(result, x, saver)
         return result, -result/100
+    
+
+class tracker:
+    def __init__(self, foldername):
+        self.counter   = 0
+        self.results   = []
+        self.x         = []
+        self.curt_best = float("inf")
+        self.curt_best_x = None
+        self.foldername = foldername
+        try:
+            os.mkdir(foldername)
+        except OSError:
+            print ("Creation of the directory %s failed" % foldername)
+        else:
+            print ("Successfully created the directory %s " % foldername)
+        
+    def dump_trace(self):
+        np.save(self.foldername +'/result.npy',np.array(self.results),allow_pickle=True)
+            
+    def track(self, result, x = None, saver = False):
+        self.counter += 1
+        if result < self.curt_best:
+            self.curt_best = result
+            self.curt_best_x = x
+        print("")
+        print("="*10)
+        print("#samples:", self.counter, "total samples:", len(self.results)+1)
+        print("="*10)
+        print("current best f(x):", self.curt_best)
+        print("current best x:", np.around(self.curt_best_x, decimals=4))
+        self.results.append(self.curt_best)
+        self.x.append(x)
+        if saver == True:
+            self.dump_trace()
+        if self.counter % 20 == 0:
+            self.dump_trace()
+        if round(self.curt_best,5) == 0:
+            self.dump_trace()
