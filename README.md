@@ -19,7 +19,7 @@ pip3 install -e "git+https://github.com/poyentung/VLab-Bench.git"
 or clone the repository to local devices:
 
 ```
-git clone git@github.com:poyentung/VLab-Bench.git
+git clone https://github.com/poyentung/VLab-Bench.git
 cd vlab_bench; pip3 install -e ./
 ```
 
