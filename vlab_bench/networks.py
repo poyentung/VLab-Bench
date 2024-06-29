@@ -8,7 +8,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LayerNormalization
-from .utils import DivideLayer
+
 keras.config.enable_unsafe_deserialization()
 
 class SurrogateModelTraining:
@@ -187,4 +187,13 @@ class SurrogateModelTraining:
         return model
 
 
- 
+class DivideLayer(keras.layers.Layer):
+    def __init__(self, input_shape, const, **args):
+        super().__init__()
+        self.const = const
+        self.w = self.add_weight(
+            initializer='ones', shape=input_shape, trainable=False
+        )
+
+    def call(self, inputs):
+        return keras.ops.divide(inputs, self.w) / self.const

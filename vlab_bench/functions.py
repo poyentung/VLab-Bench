@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Function:
-    def __init__(self, dims=3, turn=0.1, name='none', iters=None):
+    def __init__(self, dims=3, turn=0.1, name='none', iters=None, func_args={}):
         self.dims    = dims
         self.name    = name
         self.lb      = None

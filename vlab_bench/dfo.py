@@ -2,7 +2,7 @@ import os
 import numpy as np
 from typing import Dict
 from .networks import SurrogateModelTraining 
-
+from .vlab.ptycho import ElectronPtychography
 from .functions import (
     Ackley,
     Rastrigin,
@@ -15,8 +15,6 @@ from .functions import (
 from .algorithms.doo import DOO 
 from .algorithms.soo import SOO 
 from .algorithms.voo import VOO 
-from .algorithms._lamcts import LaMCTS
-from .algorithms._turbo import TuRBO
 from .algorithms.algorithms import (
     DualAnnealing,
     DifferentialEvolution,
@@ -30,12 +28,11 @@ FUNC = {'ackley':Ackley,
         'rosenbrock':Rosenbrock, 
         'schwefel':Schwefel, 
         'michalewicz':Michalewicz, 
-        'griewank':Griewank
+        'griewank':Griewank,
+        'ptycho':ElectronPtychography
         }
 
-DFO = {'lamcts':LaMCTS,
-       'turbo':TuRBO,
-       'da':DualAnnealing,
+DFO = {'da':DualAnnealing,
        'diff_evo':DifferentialEvolution,
        'cmaes':CMAES,
        'mcmc':MCMC,
@@ -53,11 +50,20 @@ class DerivativeFreeOptimization:
                  num_samples:int,
                  surrogate:SurrogateModelTraining,
                  num_init_samples:int=200,
-                 dfo_method_args:Dict={}
+                 dfo_method_args:Dict={},
+                 func_args:Dict={}
                  ):
         
         assert dims > 0
         assert num_samples > 0
+        
+        if dfo_method == 'lamcts':
+            from .algorithms._lamcts import LaMCTS
+            DFO['lamcts']=LaMCTS
+        
+        if dfo_method == 'turbo':
+            from .algorithms._turbo import TuRBO
+            DFO['turbo']=TuRBO
 
         if func not in FUNC.keys():
             print('function not defined')
@@ -69,9 +75,9 @@ class DerivativeFreeOptimization:
         self.dfo = DFO[dfo_method]
         self.dims = dims
         self.func = func
-        self.f = FUNC[self.func](dims=self.dims, name=self.dfo_method+f'-{self.func}', iters = self.num_samples) 
+        self.f = FUNC[self.func](dims=self.dims, name=self.dfo_method+f'-{self.func}', iters = self.num_samples, func_args=func_args) 
         self.bounds = [(float(self.f.lb[i]), float(self.f.ub[i])) for i in range(len(self.f.lb))]
-        self.surrogate = SurrogateModelTraining(f=self.func, dims=self.dims) if surrogate is None else surrogate
+        self.surrogate = None if surrogate is None else surrogate
         self.rollout_round = 200 if (self.func == 'ackley') or (self.func == 'rastrigin') else 100
         self.num_init_samples = num_init_samples
         self.dfo_method_args = {} if dfo_method not in dfo_method_args.keys() else dfo_method_args[dfo_method]
