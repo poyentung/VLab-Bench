@@ -51,7 +51,7 @@ class DerivativeFreeOptimization:
                  surrogate:SurrogateModelTraining,
                  num_init_samples:int=200,
                  dfo_method_args:Dict={},
-                 func_args:Dict={}
+                 func_args:Dict={} # for vlab functions (not for synthetic functions)
                  ):
         
         assert dims > 0
@@ -64,6 +64,10 @@ class DerivativeFreeOptimization:
         if dfo_method == 'turbo':
             from .algorithms._turbo import TuRBO
             DFO['turbo']=TuRBO
+
+        if dfo_method == 'bo':
+            from .algorithms._bo import BO
+            DFO['bo']=BO
 
         if func not in FUNC.keys():
             print('function not defined')
@@ -82,8 +86,8 @@ class DerivativeFreeOptimization:
         self.num_init_samples = num_init_samples
         self.dfo_method_args = {} if dfo_method not in dfo_method_args.keys() else dfo_method_args[dfo_method]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-        # initialise samples (i.e. 200 data points)
-        if self.dfo_method not in ('lamcts', 'turbo'):
+        # initialise samples (e.g. 200 data points)
+        if self.dfo_method not in ('lamcts', 'turbo', 'bo'):
             self.input_X, self.input_y2 = self.sampling_points(self.f, self.dims, self.num_init_samples)
 
 
@@ -125,6 +129,13 @@ class DerivativeFreeOptimization:
             optimizer = self.dfo(f=self.f, dims=self.dims, model=None, name=self.func)
             print(f'This optimization is based on a {self.dfo_method} optimizer')
             optimizer.run(num_samples = self.num_samples,                 
+                          num_init_samples = self.num_init_samples,
+                          **self.dfo_method_args)
+            
+        elif self.dfo_method == 'bo':
+            optimizer = self.dfo(f=self.f, dims=self.dims, model=None, name=self.func)
+            print(f'This optimization is based on a {self.dfo_method} optimizer')
+            optimizer.run(num_samples = self.num_samples,
                           num_init_samples = self.num_init_samples,
                           **self.dfo_method_args)
             

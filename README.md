@@ -39,44 +39,41 @@ pip install -e LaMCTS/LaMCTS/LA-MCTS/./
 ```
 pip install py4dstem
 ```
-Or please check installation for [GPU acceleration](https://py4dstem.readthedocs.io/en/latest/installation.html#).
+Or check installation for [GPU acceleration](https://py4dstem.readthedocs.io/en/latest/installation.html#).
 
 ## Getting started
 
 ### Virtual lab examples
 
-We run parameter optimization for electron ptychography using `TuRBO` on a MoS2 dataset in <ins> **14 dimensions** </ins> for <ins> **20 samples** </ins> with <ins> **30 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=50` and `init_samples=30` represent 20 aquisition of samples (50 - 30 = 20). More detailed hyper-parameters can be adjusted in the [run_pytho.yaml](scripts/conf/run_ptycho.yaml).
+We run parameter optimization for electron ptychography using [TuRBO](vlab_bench/algorithms/_turbo.py) on a MoS2 dataset in <ins> **14 dimensions** </ins> for <ins> **20 samples** </ins> with <ins> **30 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for [TuRBO](vlab_bench/algorithms/_turbo.py) and [LaMCTS](vlab_bench/algorithms/_lamcts.py), i.e., `num_samples=50` and `init_samples=30` represent 20 aquisition of samples (50 - 30 = 20). More detailed hyper-parameters can be adjusted in the [run_pytho.yaml](scripts/conf/run_ptycho.yaml).
 
 ```
-python scripts/run_ptycho.py\
-                method=turbo\
-                func=ptycho\
-                dims=14\
-                num_samples=50\
-                init_samples=30
+python scripts/run_ptycho.py method=turbo \
+                             func=ptycho \
+                             dims=14 \
+                             num_samples=50 \
+                             init_samples=30
 ```
 
 ### Synthetic function examples
 
-We evaluate `TuRBO` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=1000` and `init_samples=200` represent 800 aquisition of samples (1000 - 200 = 800). More detailed hyper-parameters can be adjusted in the [run.yaml](scripts/conf/run.yaml).
+We evaluate [TuRBO](vlab_bench/algorithms/_turbo.py) on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for [TuRBO](vlab_bench/algorithms/_turbo.py) and [LaMCTS](vlab_bench/algorithms/_lamcts.py), i.e., `num_samples=1000` and `init_samples=200` represent 800 aquisition of samples (1000 - 200 = 800). More detailed hyper-parameters can be adjusted in the [run.yaml](scripts/conf/run.yaml).
 
 ```
-python scripts/run.py\
-                method=turbo\
-                func=ackley\
-                dims=10\
-                num_samples=1000\
-                init_samples=200
+python scripts/run.py method=turbo \
+                      func=ackley \
+                      dims=10 \
+                      num_samples=1000 \
+                      init_samples=200
 ```
 
 We can also run multiple conditions in a run. For example, we want to evaluate `MCMC`, `CMA-ES` and `Dual Annealing` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points** </ins>.
 ```
-python scripts/run.py -m \
-                method=mcmc,cmaes,da \
-                func=ackley \
-                dims=10 \
-                num_samples=20 \
-                init_samples=200
+python scripts/run.py -m method=mcmc,cmaes,da \
+                         func=ackley \
+                         dims=10 \
+                         num_samples=20 \
+                         init_samples=200
 ```
 
 ## Available real-world tasks

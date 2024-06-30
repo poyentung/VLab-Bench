@@ -13,10 +13,10 @@ class ElectronPtychography(Function):
                  name:str='none', 
                  iters=None, 
                  func_args=dict(file_dir='data/MoS2_10layer_80kV_cutoff20_defocus130_nyquist60_abr_noise10000_v2.h5',
-                                  param_names=[],
-                                  lb=[],
-                                  ub=[],
-                                  )
+                                param_names=[],
+                                lb=[],
+                                ub=[],
+                                )
                  ):
         
         super().__init__(dims, turn, name, iters)
