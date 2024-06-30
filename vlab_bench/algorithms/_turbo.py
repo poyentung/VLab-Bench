@@ -7,7 +7,10 @@ class TuRBO(BaseOptimization):
         super().__init__(**args)
 
     def exact_f(self, x):
-        return self.f(x)[0]
+        try:
+            return self.f(x)
+        except:
+            return self.f(x)[0]
     
     def run(self, 
             num_samples,                  # Maximum number of evaluations
@@ -46,9 +49,9 @@ class TuRBO(BaseOptimization):
                             f=self.exact_f,  
                             lb=self.f.lb,  
                             ub=self.f.ub,  
-                            n_init=200 // n_trust_regions,
-                            max_evals = num_samples,
-                            n_trust_regions = n_trust_regions, 
+                            n_init=num_init_samples // n_trust_regions,
+                            max_evals=num_samples,
+                            n_trust_regions=n_trust_regions, 
                             batch_size=batch_size,  
                             verbose=verbose,
                             use_ard=use_ard,

@@ -14,7 +14,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     install_requires=[
         "notebook",
         "tensorflow",
