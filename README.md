@@ -13,34 +13,55 @@ The code requires `python>=3.9`. Installation Tensorflow and Keras with CUDA sup
 Install `vlab_bench`:
 
 ```
-pip3 install -e "git+https://github.com/poyentung/VLab-Bench.git"
+pip install -e "git+https://github.com/poyentung/VLab-Bench.git"
 ```
 
 or clone the repository to local devices:
 
 ```
 git clone https://github.com/poyentung/VLab-Bench.git
-cd vlab_bench; pip3 install -e ./
+cd vlab_bench; pip install -e ./
 ```
 
-**[Optional]** installation of `TurBO` and/or `LaMCTS`
+**[Optional]** Install `TurBO` and/or `LaMCTS`
 
 ```
 git clone https://github.com/uber-research/TuRBO.git
-pip3 install -e TuRBO/./
+pip install -e TuRBO/./
 ```
 ```
 git clone https://github.com/facebookresearch/LaMCTS.git
-pip3 install -e LaMCTS/LaMCTS/LA-MCTS/./
+pip install -e LaMCTS/LaMCTS/LA-MCTS/./
 ```
 
+**[Optional]** Install `py4DSTEM`
+
+```
+pip install py4dstem
+```
+Or please check installation for [GPU acceleration](https://py4dstem.readthedocs.io/en/latest/installation.html#).
 
 ## Getting started
 
-Here we evaluate `TuRBO` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=1000` and `init_samples=200` represent 800 aquisition of samples (instead of 1000).
+### Virtual lab examples
+
+We run parameter optimization for electron ptychography using `TuRBO` on a MoS2 dataset in <ins> **14 dimensions** </ins> for <ins> **20 samples** </ins> with <ins> **30 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=50` and `init_samples=30` represent 20 aquisition of samples (50 - 30 = 20). More detailed hyper-parameters can be adjusted in the [run_pytho.yaml](scripts/conf/run_ptycho.yaml).
 
 ```
-python3 scripts/run.py\
+python scripts/run_ptycho.py\
+                method=turbo\
+                func=ptycho\
+                dims=14\
+                num_samples=50\
+                init_samples=30
+```
+
+### Synthetic function examples
+
+We evaluate `TuRBO` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points**</ins>. Note that `num_samples` should include the `init_samples` for **TuRBO** and **LaMCTS**, i.e., `num_samples=1000` and `init_samples=200` represent 800 aquisition of samples (1000 - 200 = 800). More detailed hyper-parameters can be adjusted in the [run.yaml](scripts/conf/run.yaml).
+
+```
+python scripts/run.py\
                 method=turbo\
                 func=ackley\
                 dims=10\
@@ -50,7 +71,7 @@ python3 scripts/run.py\
 
 We can also run multiple conditions in a run. For example, we want to evaluate `MCMC`, `CMA-ES` and `Dual Annealing` on `Ackley` in <ins> **10 dimensions** </ins> for <ins> **1,000 samples** </ins> with <ins> **200 initial data points** </ins>.
 ```
-python3 scripts/run.py -m \
+python scripts/run.py -m \
                 method=mcmc,cmaes,da \
                 func=ackley \
                 dims=10 \
@@ -61,7 +82,7 @@ python3 scripts/run.py -m \
 ## Available real-world tasks
 
 * Cyclic peptite binder design
-* Electron ptychography: reconstruction optimisation
+* [Electron ptychography](scripts/run_ptycho.py)
 
 Please send us a PR to add your real-world task!
 

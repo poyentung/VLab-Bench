@@ -2,8 +2,8 @@
 method: turbo        # method to search
 func: ptycho         # function name
 dims: 14             # problem dimension
-num_samples: 12      # number of samples to collect in the search
-init_samples: 10     # number of initialisation data points for training initial surrogate model 
+num_samples: 50      # number of samples to collect in the search
+init_samples: 30     # number of initialisation data points for training initial surrogate model 
 
 
 # Hyper-parameters for ptychography
