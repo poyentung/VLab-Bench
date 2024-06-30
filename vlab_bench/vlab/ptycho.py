@@ -24,8 +24,8 @@ class ElectronPtychography(Function):
         self.func_args = func_args
         self.dataset = self.read(func_args['file_dir'])
         self.param_names = func_args['param_names']
-        self.lb = func_args['lb']
-        self.ub = func_args['ub']
+        self.lb = np.array(func_args['lb'])
+        self.ub = np.array(func_args['ub'])
 
         # self.param_names = ['semiangle_cutoff', 'energy', 'num_iter', 'step_size', 'num_slices', 'slice_thicknesses',
         #                     'defocus', 'C12', 'phi12', 'C30', 'C21', 'phi21', 'C23', 'phi23']
@@ -43,15 +43,15 @@ class ElectronPtychography(Function):
 
         ptycho = py4DSTEM.process.phase.MultislicePtychography(
                     datacube=self.dataset,
-                    num_slices=self.params['num_slices'],
-                    slice_thicknesses=self.params['slice_thicknesses'],
+                    num_slices=int(self.params['num_slices']),
+                    slice_thicknesses=float(self.params['slice_thicknesses']),
                     verbose=True,
-                    energy=self.params['energy'],
-                    semiangle_cutoff=self.params['semiangle_cutoff'],
+                    energy=float(self.params['energy']),
+                    semiangle_cutoff=float(self.params['semiangle_cutoff']),
                     device='cpu',
                     object_type='potential',
                     object_padding_px=(18,18),
-                    polar_parameters={aberr:self.params['aberr'] for aberr in self.param_names[-8:]}
+                    polar_parameters={aberr:self.params[aberr] for aberr in self.param_names[-8:]}
         ).preprocess(
             plot_center_of_mass = False,
             plot_rotation=False,
@@ -60,8 +60,8 @@ class ElectronPtychography(Function):
         ptycho = ptycho.reconstruct(
             reset=True,
             store_iterations=True,
-            num_iter = self.params['nunum_iterm'],
-            step_size=self.params['step_size'],
+            num_iter = int(self.params['num_iter']),
+            step_size = float(self.params['step_size']),
         )
 
         self.tracker.track(ptycho.error, x, saver)

@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Function:
-    def __init__(self, dims=3, turn=0.1, name='none', iters=None, func_args={}):
+    def __init__(self, dims=3, turn=0.1, name='none', iters=None):
         self.dims    = dims
         self.name    = name
         self.lb      = None
@@ -17,10 +17,10 @@ class Function:
         return NotImplementedError
 
 class Ackley(Function):
-    def __init__(self, dims=3, turn=0.1, name='ackley', iters=None):
-        super().__init__(dims=dims, turn=turn,name=name,iters=iters)
-        self.lb      = -5 * np.ones(dims)
-        self.ub      =  5 * np.ones(dims)
+    def __init__(self, **args):
+        super().__init__(**args)
+        self.lb      = -5 * np.ones(self.dims)
+        self.ub      =  5 * np.ones(self.dims)
 
     def __call__(self, x, saver=True):
         x = x.reshape(self.dims)
@@ -35,10 +35,10 @@ class Ackley(Function):
     
 
 class Rastrigin(Function):
-    def __init__(self, dims=3, turn=0.1, name='rastrigin', iters=None):
-        super().__init__(dims=dims, turn=turn,name=name,iters=iters)
-        self.lb      = -5 * np.ones(dims)
-        self.ub      =  5 * np.ones(dims)
+    def __init__(self, **args):
+        super().__init__(**args)
+        self.lb      = -5 * np.ones(self.dims)
+        self.ub      =  5 * np.ones(self.dims)
 
     def __call__(self, x, A=10, saver=True):
         x = np.array(x / self.turn).round(0) * self.turn
@@ -54,10 +54,10 @@ class Rastrigin(Function):
 
 
 class Rosenbrock(Function):
-    def __init__(self, dims=3, turn=0.1, name='rosenbrock', iters=None):
-        super().__init__(dims=dims, turn=turn,name=name,iters=iters)
-        self.lb      = -5 * np.ones(dims)
-        self.ub      =  5 * np.ones(dims)
+    def __init__(self, **args):
+        super().__init__(**args)
+        self.lb      = -5 * np.ones(self.dims)
+        self.ub      =  5 * np.ones(self.dims)
 
     def __call__(self, x, saver=True):
         x = np.array(x / self.turn).round(0) * self.turn
@@ -71,10 +71,10 @@ class Rosenbrock(Function):
 
 
 class Griewank(Function):
-    def __init__(self, dims=3, turn=0.1, name='griewank', iters=None):
-        super().__init__(dims=dims, turn=turn,name=name,iters=iters)
-        self.lb      = -600 * np.ones(dims)
-        self.ub      =  600 * np.ones(dims)
+    def __init__(self,**args):
+        super().__init__(**args)
+        self.lb      = -600 * np.ones(self.dims)
+        self.ub      =  600 * np.ones(self.dims)
 
     def __call__(self, x, saver=True):
         x = np.array(x / self.turn).round(0) * self.turn
@@ -90,10 +90,10 @@ class Griewank(Function):
 
 
 class Michalewicz(Function):
-    def __init__(self, dims=3, turn=0.1, name='michalewicz', iters=None):
-        super().__init__(dims=dims, turn=turn, name=name, iters=iters)
-        self.lb      = np.zeros(dims)
-        self.ub      = np.pi * np.ones(dims)
+    def __init__(self, **args):
+        super().__init__(d**args)
+        self.lb      = np.zeros(self.dims)
+        self.ub      = np.pi * np.ones(self.dims)
 
     def __call__(self, x, m=10, saver=True):
         x = np.array(x / self.turn).round(0) * self.turn
@@ -110,10 +110,10 @@ class Michalewicz(Function):
 
 
 class Schwefel(Function):
-    def __init__(self, dims=3, turn=0.1, name='schwefel', iters=None):
-        super().__init__(dims=dims, turn=turn, name=name, iters=iters)
-        self.lb      = -500 * np.ones(dims)
-        self.ub      =  500 * np.ones(dims)
+    def __init__(self, **args):
+        super().__init__(**args)
+        self.lb      = -500 * np.ones(self.dims)
+        self.ub      =  500 * np.ones(self.dims)
 
     def __call__(self, x, saver=True):
         x = np.array(x / self.turn).round(0) * self.turn

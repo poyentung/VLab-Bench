@@ -1,7 +1,7 @@
 import numpy as np
 
 class BaseOptimization:
-    def __init__(self, f=None, dims=20, model=None, name=None):
+    def __init__(self, f=None, dims=20, model=None, name=None, dfo_method=None):
         self.f = f
         self.turn = f.turn
         self.dims = dims
@@ -9,7 +9,7 @@ class BaseOptimization:
         self.name = name
         self.mode = None
         self.all_proposed=[]
-        self.algorithm = None
+        self.dfo_method = dfo_method
         self.bounds = [(float(self.f.lb[idx]), float(self.f.ub[idx])) for idx in range(0, len(self.f.lb))]
 
     def data_process(self, X, boards):
