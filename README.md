@@ -1,10 +1,16 @@
 # VLab-Bench
-
+![Vlab image](results/vlab.png)
 `VLab-Bench` is a suite that offers benchmarks for real-world scientific design tasks and optimisation algorithms for materials science and biology. 
 
-## Current results
-![Result table](results/benchmark_synthetic_surrogate.png)
+## Benchmark results
 
+### Electron ptychography
+![Result image](results/ptycho.png)
+The reconstructed phases (of the object transmission functions) with parameters obtained from the corresponding DFO methods on a MoS2 dataset.
+
+### Synthetic functions
+![Result table](results/benchmark_synthetic_surrogate.png)
+Results are averaged over 5 trials, and ± denotes the standard deviation.
 
 ## Installation
 
