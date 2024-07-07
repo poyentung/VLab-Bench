@@ -2,7 +2,6 @@ import os
 import numpy as np
 from typing import Dict
 from .networks import SurrogateModelTraining 
-from .vlab.ptycho import ElectronPtychography
 from .functions import (
     Ackley,
     Rastrigin,
@@ -29,7 +28,6 @@ FUNC = {'ackley':Ackley,
         'schwefel':Schwefel, 
         'michalewicz':Michalewicz, 
         'griewank':Griewank,
-        'ptycho':ElectronPtychography
         }
 
 DFO = {'da':DualAnnealing,
@@ -69,7 +67,11 @@ class DerivativeFreeOptimization:
             from .algorithms._bo import BO
             DFO['bo']=BO
 
-        if func not in FUNC.keys():
+        if func == 'ptycho':
+            from .vlab.ptycho import ElectronPtychography
+            FUNC['ptycho']=ElectronPtychography
+
+        elif func not in FUNC.keys():
             print('function not defined')
             os._exit(1)
 

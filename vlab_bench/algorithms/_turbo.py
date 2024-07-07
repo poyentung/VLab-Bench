@@ -8,9 +8,9 @@ class TuRBO(BaseOptimization):
 
     def exact_f(self, x):
         try:
-            return self.f(x)
-        except:
             return self.f(x)[0]
+        except:
+            return self.f(x)
     
     def run(self, 
             num_samples,                  # Maximum number of evaluations

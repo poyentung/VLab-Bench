@@ -8,13 +8,17 @@
 ![Result image](results/ptycho.png)
 The reconstructed phases (of the object transmission functions) with parameters obtained from the corresponding DFO methods on a MoS2 dataset.
 
+### Cyclic peptide
+![Result image](results/peptide.png)
+The peptide sequence and the corresponding interaction map for protein 4kel derived from various DFO methods.
+
 ### Synthetic functions
 ![Result table](results/benchmark_synthetic_surrogate.png)
 Results are averaged over 5 trials, and ± denotes the standard deviation.
 
 ## Installation
 
-The code requires `python>=3.9`. Installation Tensorflow and Keras with CUDA support is strongly recommended.
+The code requires `python>=3.10`. Installation Tensorflow and Keras with CUDA support is strongly recommended.
 
 Install `vlab_bench`:
 
@@ -33,11 +37,11 @@ cd vlab_bench; pip install -e ./
 
 ```
 git clone https://github.com/uber-research/TuRBO.git
-pip install -e TuRBO/./
+pip install TuRBO/./
 ```
 ```
 git clone https://github.com/facebookresearch/LaMCTS.git
-pip install -e LaMCTS/LaMCTS/LA-MCTS/./
+pip install LaMCTS/LA-MCTS/./
 ```
 
 **[Optional]** Install `py4DSTEM`
@@ -47,6 +51,9 @@ pip install py4dstem
 ```
 Or check installation for [GPU acceleration](https://py4dstem.readthedocs.io/en/latest/installation.html#).
 
+**[Optional]** Install `pyrosetta` and `colabdesign` for cyclic peptide design.
+
+Referring to [pyrosetta](https://www.pyrosetta.org/downloads) and [colabdesign](https://github.com/sokrypton/ColabDesign/tree/main/af)
 ## Getting started
 
 ### Virtual lab examples
@@ -84,7 +91,7 @@ python scripts/run.py -m method=mcmc,cmaes,da \
 
 ## Available real-world tasks
 
-* Cyclic peptite binder design
+* [Cyclic peptide binder design](scripts/run_peptide.py)
 * [Electron ptychography](scripts/run_ptycho.py)
 
 Please send us a PR to add your real-world task!
