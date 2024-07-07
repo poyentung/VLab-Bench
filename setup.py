@@ -29,7 +29,7 @@ setup(
         "scikit-image       == 0.19.3",
         "cma                == 3.3.0",
         "nevergrad                  ",
-        "tqdm               == 4.59.0",
+        "tqdm               == 4.66.4",
         "seaborn            == 0.12.2",
         "openpyxl           == 3.1.2",
     ],

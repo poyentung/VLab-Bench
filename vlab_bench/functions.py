@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Function:
-    def __init__(self, dims=3, turn=0.1, name='none', iters=None):
+    def __init__(self, dims=3, turn=0.1, name='none', iters=None, func_args={}):
         self.dims    = dims
         self.name    = name
         self.lb      = None
@@ -12,6 +12,7 @@ class Function:
         self.tracker = tracker(name+str(dims))
         self.iters   = iters
         self.turn    = turn
+        self.func_args= func_args
 
     def __call__(self, x, saver=True):
         return NotImplementedError
