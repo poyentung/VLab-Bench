@@ -94,8 +94,7 @@ class DerivativeFreeOptimization:
 
 
     def sampling_points(self, f, dims:int=5, n_samples:int=200):
-        dummy = np.arange(f.lb[0], f.ub[0] + f.turn, f.turn).round(5)
-        input_X = np.random.choice(dummy, size=(n_samples, dims))
+        input_X = np.concatenate([np.random.uniform(lb, ub, (n_samples,1)) for lb, ub in zip(f.lb, f.ub)], axis=1).round(5)
         input_y = []
         input_y2 = []
         for i in input_X:

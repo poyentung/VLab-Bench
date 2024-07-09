@@ -30,7 +30,7 @@ or clone the repository to local devices:
 
 ```
 git clone https://github.com/poyentung/VLab-Bench.git
-cd vlab_bench; pip install -e ./
+cd VLab-Bench; pip install -e ./
 ```
 
 **[Optional]** Install `TurBO` and/or `LaMCTS`
